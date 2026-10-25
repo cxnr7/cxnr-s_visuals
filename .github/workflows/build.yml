@@ -6,13 +6,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Fix Windows Line Endings
+        run: sed -i 's/\r$//' gradlew
+
+      - name: Make Gradle Executable
+        run: chmod +x gradlew
+        
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+          
       - name: Build with Gradle
         run: ./gradlew build
+        
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
